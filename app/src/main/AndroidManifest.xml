@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
@@ -11,14 +9,13 @@
     <application
         tools:replace="android:theme"
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.BluetoothPrint"
         android:name=".ApplicationClass"
-        tools:targetApi="31">
+        tools:targetApi="30">
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -27,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.mazenrashed.printooth.ui.ScanningActivity"
+            android:exported="true">
+
+            <!-- Intent filters and other attributes for the activity -->
+
+        </activity>
+
     </application>
 
 </manifest>
