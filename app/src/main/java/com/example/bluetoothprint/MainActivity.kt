@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import com.mazenrashed.printooth.Printooth
 import com.mazenrashed.printooth.ui.ScanningActivity
 import com.mazenrashed.printooth.utilities.Printing
@@ -12,6 +13,7 @@ import com.mazenrashed.printooth.utilities.PrintingCallback
 class MainActivity : AppCompatActivity(), PrintingCallback {
 
     internal var printing:Printing ?=null
+    private val btnPairUnpair: Button = findViewById(R.id.btnPairUnpair)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,7 +40,8 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 
     private fun changePairAndUnpair() {
         if (Printooth.hasPairedPrinter())
-            btnPairUnPair.text = "Unpair ${Printooth.getPairedPrinter()!!.name}"
+            btnPairUnpair.text = "Unpair ${Printooth.getPairedPrinter()!!.name}"
+
         else
             btnPairUnpair.text = "Pair with Printer"
     }
