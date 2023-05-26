@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import androidx.appcompat.widget.AppCompatButton
 import android.widget.Toast
 import com.mazenrashed.printooth.Printooth
 import com.mazenrashed.printooth.data.printable.Printable
@@ -20,11 +20,11 @@ import com.mazenrashed.printooth.utilities.PrintingCallback
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity(), PrintingCallback {
+    internal var printing: Printing ?=null
+    val btnPairUnpair: AppCompatButton = findViewById<AppCompatButton>(R.id.btnPairUnpair)
+    //    private val btnPrintImages: Button = findViewById(R.id.btnPrintImage)
+    val btnPrint: AppCompatButton = findViewById<AppCompatButton>(R.id.btnPrint)
 
-    internal var printing:Printing ?=null
-    private val btnPairUnpair: Button = findViewById(R.id.btnPairUnpair)
-//    private val btnPrintImages: Button = findViewById(R.id.btnPrintImage)
-    private val btnPrint: Button = findViewById(R.id.btnPrint)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
