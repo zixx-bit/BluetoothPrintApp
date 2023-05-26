@@ -1,5 +1,6 @@
 package com.example.bluetoothprint
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -81,12 +82,10 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
                 override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
             }
                 override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?){
-
                 }
                 override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?){
                     printables.add(bitmap!!)
                 printing.print(printables)
-
                 }
 
             )
@@ -99,6 +98,22 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 
         else
             btnPairUnpair.text = "Pair with Printer"
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ScanningActivity.SCANNING_FOR_PRINTER &&
+                resultCode == Activity.RESULT_OK)
+            initPrinting()
+            changePairAndUnpair()
+    }
+
+    private fun initPrinting() {
+        if (Printooth.hasPairedPrinter())
+            if (printing != null) {
+                printing!!.printingCallback = this
+            }
+
     }
 
     override fun connectingWithPrinter() {
