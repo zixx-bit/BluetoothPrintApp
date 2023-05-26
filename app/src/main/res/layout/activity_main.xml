@@ -33,6 +33,6 @@
         android:text="PairUnpair"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnPrintImage"/>
+        app:layout_constraintTop_toBottomOf="@id/btnPrint"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

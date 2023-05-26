@@ -23,12 +23,16 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     internal var printing: Printing ?=null
    lateinit var  btnPairUnpair :AppCompatButton
    lateinit var  btnPrint:AppCompatButton
+    lateinit var  btnPrintImage :AppCompatButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btnPairUnpair = findViewById(R.id.btnPairUnpair)
         btnPrint = findViewById(R.id.btnPrint)
+        btnPrintImage = findViewById(R.id.btnPrintImage)
+
 
         initview()
 
@@ -36,10 +40,8 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     }
 
     private fun initview() {
-        if (printing != null) printing!!.printingCallback = this
-
-
-                btnPairUnpair!!.setOnClickListener {
+        if (printing != null)printing!!.printingCallback = this
+                btnPairUnpair.setOnClickListener {
                     if (Printooth.hasPairedPrinter())
                         Printooth.removeCurrentPrinter()
                     else{
@@ -57,7 +59,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 //                    printImage()
 //            }
 
-            btnPrint!!.setOnClickListener {
+            btnPrint.setOnClickListener {
                 if (!Printooth.hasPairedPrinter())
                     startActivityForResult(Intent(this@MainActivity,ScanningActivity::class.java),
                     ScanningActivity.SCANNING_FOR_PRINTER)
@@ -106,10 +108,10 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 
     private fun changePairAndUnpair() {
         if (Printooth.hasPairedPrinter())
-            btnPairUnpair!!.text = "Unpair ${Printooth.getPairedPrinter()!!.name}"
+            btnPairUnpair.text = "Unpair ${Printooth.getPairedPrinter()!!.name}"
 
         else
-            btnPairUnpair!!.text = "Pair with Printer"
+            btnPairUnpair.text = "Pair with Printer"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
