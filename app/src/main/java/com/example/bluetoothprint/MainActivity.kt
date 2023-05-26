@@ -1,6 +1,8 @@
 package com.example.bluetoothprint
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,6 +15,7 @@ import com.mazenrashed.printooth.data.printer.DefaultPrinter
 import com.mazenrashed.printooth.ui.ScanningActivity
 import com.mazenrashed.printooth.utilities.Printing
 import com.mazenrashed.printooth.utilities.PrintingCallback
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity(), PrintingCallback {
 
@@ -64,10 +67,30 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
             .setLineSpacing(DefaultPrinter.LINE_SPACING_60).setAlignment(DefaultPrinter
                 .ALIGNMENT_CENTER).setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
             .setUnderlined(DefaultPrinter.UNDERLINED_MODE_ON).setNewLinesAfter(1).build())
+
+        printing!!.print(printables)
     }
 
     private fun printImage() {
-        TODO("Not yet implemented")
+        val printables = ArrayList<Printable>()
+
+//        load bitmap from internet
+        Picasso.get().load("https://upload.wikimedia.org/wikipedia/commons/" +
+                "6/64/Android_logo_2019_%28stacked%29.svg")
+            .into(object:Target {
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+            }
+                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?){
+
+                }
+                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?){
+                    printables.add(bitmap!!)
+                printing.print(printables)
+
+                }
+
+            )
+
     }
 
     private fun changePairAndUnpair() {
