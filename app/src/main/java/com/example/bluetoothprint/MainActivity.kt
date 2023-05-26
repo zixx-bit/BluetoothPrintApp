@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import com.mazenrashed.printooth.Printooth
 import com.mazenrashed.printooth.data.printable.Printable
 import com.mazenrashed.printooth.data.printable.RawPrintable
@@ -117,22 +118,22 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     }
 
     override fun connectingWithPrinter() {
-        TODO("Not yet implemented")
+     Toast.makeText(this,"connecting to printer", Toast.LENGTH_SHORT).show()
     }
 
     override fun connectionFailed(error: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(this, "Failed: $s", Toast.LENGTH_SHORT).show()
     }
 
     override fun onError(error: String) {
-        TODO("Not yet implemented")
+     Toast.makeText(this, "Error: $s", Toast.LENGTH_SHORT).show()
     }
 
     override fun onMessage(message: String) {
-        TODO("Not yet implemented")
+    Toast.makeText(this, "Message: $s", Toast.LENGTH_SHORT).show()
     }
 
     override fun printingOrderSentSuccessfully() {
-        TODO("Not yet implemented")
+        Toast.makeText(this,"Order sent to printer", Toast.LENGTH_SHORT).show()
     }
 }
