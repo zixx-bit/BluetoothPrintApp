@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
             .setCharacterCode(DefaultPrinter.CHARCODE_PC1252).setNewLinesAfter(1).build())
 
 //        custom text
+        printables.add(TextPrintable.Builder().setText("Hllow wolrd")
+            .setLineSpacing(DefaultPrinter.LINE_SPACING_60).setAlignment(DefaultPrinter
+                .ALIGNMENT_CENTER).setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
+            .setUnderlined(DefaultPrinter.UNDERLINED_MODE_ON).setNewLinesAfter(1).build())
     }
 
     private fun printImage() {
