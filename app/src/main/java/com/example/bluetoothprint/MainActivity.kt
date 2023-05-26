@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 
     internal var printing:Printing ?=null
     private val btnPairUnpair: Button = findViewById(R.id.btnPairUnpair)
-    private val btnPrintImages: Button = findViewById(R.id.btnPrintImage)
+//    private val btnPrintImages: Button = findViewById(R.id.btnPrintImage)
     private val btnPrint: Button = findViewById(R.id.btnPrint)
 
 
@@ -38,13 +38,23 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     private fun initview() {
         if (printing != null) printing!!.printingCallback = this
 
-            btnPrintImages.setOnClickListener(){
-                if (!Printooth.hasPairedPrinter())
-                    startActivityForResult(Intent(this@MainActivity,ScanningActivity::class.java),
-                    ScanningActivity.SCANNING_FOR_PRINTER)
-                else
-                    printImage()
-            }
+                btnPairUnpair.setOnClickListener {
+                    if (Printooth.hasPairedPrinter())
+                        Printooth.removeCurrentPrinter()
+                    else{
+                        startActivityForResult(Intent(this@MainActivity, ScanningActivity::class.java),
+                        ScanningActivity.SCANNING_FOR_PRINTER)
+                        changePairAndUnpair()
+                    }
+                }
+
+//            btnPrintImages.setOnClickListener(){
+//                if (!Printooth.hasPairedPrinter())
+//                    startActivityForResult(Intent(this@MainActivity,ScanningActivity::class.java),
+//                    ScanningActivity.SCANNING_FOR_PRINTER)
+//                else
+//                    printImage()
+//            }
 
             btnPrint.setOnClickListener {
                 if (!Printooth.hasPairedPrinter())
@@ -73,25 +83,25 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         printing!!.print(printables)
     }
 
-    private fun printImage() {
-        val printables = ArrayList<Printable>()
-
-//        load bitmap from internet
-        Picasso.get().load("https://upload.wikimedia.org/wikipedia/commons/" +
-                "6/64/Android_logo_2019_%28stacked%29.svg")
-            .into(object:Target {
-                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-            }
-                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?){
-                }
-                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?){
-                    printables.add(bitmap!!)
-                printing.print(printables)
-                }
-
-            )
-
-    }
+//    private fun printImage() {
+//        val printables = ArrayList<Printable>()
+//
+////        load bitmap from internet
+//        Picasso.get().load("https://upload.wikimedia.org/wikipedia/commons/" +
+//                "6/64/Android_logo_2019_%28stacked%29.svg")
+//            .into(object:Target {
+//                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+//            }
+//                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?){
+//                }
+//                override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?){
+//                    printables.add(bitmap!!)
+//                printing.print(printables)
+//                }
+//
+//            )
+//
+//    }
 
     private fun changePairAndUnpair() {
         if (Printooth.hasPairedPrinter())
@@ -122,15 +132,15 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     }
 
     override fun connectionFailed(error: String) {
-        Toast.makeText(this, "Failed: $s", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Failed: $error", Toast.LENGTH_SHORT).show()
     }
 
     override fun onError(error: String) {
-     Toast.makeText(this, "Error: $s", Toast.LENGTH_SHORT).show()
+     Toast.makeText(this, "Error: $error", Toast.LENGTH_SHORT).show()
     }
 
     override fun onMessage(message: String) {
-    Toast.makeText(this, "Message: $s", Toast.LENGTH_SHORT).show()
+    Toast.makeText(this, "Message: $message", Toast.LENGTH_SHORT).show()
     }
 
     override fun printingOrderSentSuccessfully() {
