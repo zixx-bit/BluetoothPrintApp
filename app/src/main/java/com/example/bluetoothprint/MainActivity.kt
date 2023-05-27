@@ -1,5 +1,11 @@
 package com.example.bluetoothprint
 
+import android.Manifest
+import android.bluetooth.BluetoothAdapter
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -25,6 +31,9 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
    lateinit var  btnPrint:AppCompatButton
     lateinit var  btnPrintImage :AppCompatButton
 
+    private val REQUEST_BLUETOOTH_PERMISSION = 1
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +42,29 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         btnPrint = findViewById(R.id.btnPrint)
         btnPrintImage = findViewById(R.id.btnPrintImage)
 
-
-        initview()
-
-
+        initView()
     }
+    private fun initView() {
 
-    private fun initview() {
-        if (printing != null)printing!!.printingCallback = this
+        // Request Bluetooth permission if not granted
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.BLUETOOTH),
+                REQUEST_BLUETOOTH_PERMISSION
+            )
+        } else {
+            initPrinting()
+        }
+
+        // ...
+
+        if (printing != null)
+            printing!!.printingCallback = this
                 btnPairUnpair.setOnClickListener {
                     if (Printooth.hasPairedPrinter())
                         Printooth.removeCurrentPrinter()
@@ -67,6 +91,22 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
                     printText()
             }
 
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initPrinting()
+            } else {
+                // Bluetooth permission denied, handle accordingly
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
     }
 
     private fun printText() {
