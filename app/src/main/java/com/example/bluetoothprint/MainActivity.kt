@@ -26,7 +26,7 @@ import com.mazenrashed.printooth.utilities.PrintingCallback
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity(), PrintingCallback {
-    internal var printing: Printing ?=null
+    internal var printing: Printing ?=null;
    lateinit var  btnPairUnpair :AppCompatButton
    lateinit var  btnPrint:AppCompatButton
     lateinit var  btnPrintImage :AppCompatButton
@@ -47,28 +47,21 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     private fun initView() {
 
         // Request Bluetooth permission if not granted
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.BLUETOOTH
-            ) != PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.BLUETOOTH),
-                REQUEST_BLUETOOTH_PERMISSION
-            )
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.BLUETOOTH), REQUEST_BLUETOOTH_PERMISSION)
         } else {
             initPrinting()
         }
-
         // ...
 
-        if (printing != null)
+        if (printing!= null)
             printing!!.printingCallback = this
-                btnPairUnpair.setOnClickListener {
+
+        btnPairUnpair.setOnClickListener {
                     if (Printooth.hasPairedPrinter())
                         Printooth.removeCurrentPrinter()
-                    else{
+                     else{
                         startActivityForResult(Intent(this@MainActivity, ScanningActivity::class.java),
                         ScanningActivity.SCANNING_FOR_PRINTER)
                         changePairAndUnpair()
@@ -83,7 +76,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 //                    printImage()
 //            }
 
-            btnPrint.setOnClickListener {
+        btnPrint.setOnClickListener {
                 if (!Printooth.hasPairedPrinter())
                     startActivityForResult(Intent(this@MainActivity,ScanningActivity::class.java),
                     ScanningActivity.SCANNING_FOR_PRINTER)
@@ -97,7 +90,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
-    ) {
+          ) {
         if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 initPrinting()
@@ -114,14 +107,17 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         printables.add(RawPrintable.Builder(byteArrayOf(27,100,4)).build())
 
 //        Add text
-        printables.add(TextPrintable.Builder().setText("hellow ")
+        printables.add(TextPrintable.Builder().setText("Hello")
             .setCharacterCode(DefaultPrinter.CHARCODE_PC1252).setNewLinesAfter(1).build())
 
 //        custom text
-        printables.add(TextPrintable.Builder().setText("Hllow wolrd")
-            .setLineSpacing(DefaultPrinter.LINE_SPACING_60).setAlignment(DefaultPrinter
-                .ALIGNMENT_CENTER).setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
-            .setUnderlined(DefaultPrinter.UNDERLINED_MODE_ON).setNewLinesAfter(1).build())
+        printables.add(TextPrintable.Builder().setText("Hellow wolrd")
+            .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
+            .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+            .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
+            .setUnderlined(DefaultPrinter.UNDERLINED_MODE_ON)
+            .setNewLinesAfter(1)
+            .build())
 
         printing!!.print(printables)
     }
@@ -157,17 +153,16 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ScanningActivity.SCANNING_FOR_PRINTER &&
-                resultCode == Activity.RESULT_OK)
-            initPrinting()
+            resultCode == Activity.RESULT_OK)
+            initPrinting();
             changePairAndUnpair()
-    }
+     }
 
     private fun initPrinting() {
         if (Printooth.hasPairedPrinter())
-            if (printing != null) {
-                printing!!.printingCallback = this
-            }
-
+          printing = Printooth.printer()
+        if (printing!=null)
+            printing!!.printingCallback =this
     }
 
     override fun connectingWithPrinter() {
