@@ -13,6 +13,8 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import android.widget.Toast
 import com.mazenrashed.printooth.Printooth
@@ -24,6 +26,9 @@ import com.mazenrashed.printooth.ui.ScanningActivity
 import com.mazenrashed.printooth.utilities.Printing
 import com.mazenrashed.printooth.utilities.PrintingCallback
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), PrintingCallback {
     internal var printing: Printing ?=null;
@@ -41,6 +46,12 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         btnPairUnpair = findViewById(R.id.btnPairUnpair)
         btnPrint = findViewById(R.id.btnPrint)
         btnPrintImage = findViewById(R.id.btnPrintImage)
+
+
+
+
+
+
 
         initView()
     }
@@ -103,15 +114,40 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     }
 
     private fun printText() {
+
+        val supplierName = findViewById<EditText>(R.id.suppliersName)
+        val identityNumber = findViewById<EditText>(R.id.IdNumber)
+        val route = findViewById<EditText>(R.id.route)
+        val clerk = findViewById<EditText>(R.id.clerkName)
+        val weightLitres = findViewById<EditText>(R.id.weightLitres)
+
         val printables = ArrayList<Printable>()
         printables.add(RawPrintable.Builder(byteArrayOf(27,100,4)).build())
 
+        val supplier = supplierName.text
+        val identity = identityNumber.text
+        val routeName = route.text
+        val clerkName = clerk.text
+        val weight = weightLitres.text
+
+        //        get cuurent time
+        val currentdateTimeTv = findViewById<TextView>(R.id.date)
+        val currentDateTime = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date())
+        currentdateTimeTv.text = currentDateTime
+
+
 //        Add text
-        printables.add(TextPrintable.Builder().setText("Hello")
+        printables.add(TextPrintable.Builder().setText("Date: $currentDateTime" +
+                "Litres in weight: $weight \n" +
+                "Supplier: $supplier \n" +
+                "ID number: $identity \n" +
+                "Route: $routeName \n" +
+                "Clerk Name: $clerkName\n" +
+                "\n")
             .setCharacterCode(DefaultPrinter.CHARCODE_PC1252).setNewLinesAfter(1).build())
 
 //        custom text
-        printables.add(TextPrintable.Builder().setText("Hellow wolrd")
+        printables.add(TextPrintable.Builder().setText("")
             .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
             .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
             .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
