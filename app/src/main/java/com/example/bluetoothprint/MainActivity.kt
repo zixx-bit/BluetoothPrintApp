@@ -137,13 +137,12 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 
 
 //        Add text
-        printables.add(TextPrintable.Builder().setText("Date: $currentDateTime" +
+        printables.add(TextPrintable.Builder().setText("Date: $currentDateTime \n" +
                 "Litres in weight: $weight \n" +
                 "Supplier: $supplier \n" +
                 "ID number: $identity \n" +
                 "Route: $routeName \n" +
-                "Clerk Name: $clerkName\n" +
-                "\n")
+                "Clerk Name: $clerkName\n")
             .setCharacterCode(DefaultPrinter.CHARCODE_PC1252).setNewLinesAfter(1).build())
 
 //        custom text
