@@ -31,10 +31,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), PrintingCallback {
-    internal var printing: Printing ?=null;
-   lateinit var  btnPairUnpair :AppCompatButton
-   lateinit var  btnPrint:AppCompatButton
-    lateinit var  btnPrintImage :AppCompatButton
+        internal var printing: Printing ?=null;
+        lateinit var  btnPairUnpair :AppCompatButton
+        lateinit var  btnPrint:AppCompatButton
+        lateinit var  btnPrintImage :AppCompatButton
 
     private val REQUEST_BLUETOOTH_PERMISSION = 1
 
@@ -47,13 +47,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         btnPrint = findViewById(R.id.btnPrint)
         btnPrintImage = findViewById(R.id.btnPrintImage)
 
-
-
-
-
-
-
-        initView()
+       initView()
     }
     private fun initView() {
 
