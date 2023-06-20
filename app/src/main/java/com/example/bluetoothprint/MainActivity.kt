@@ -31,14 +31,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), PrintingCallback {
-        internal var printing: Printing ?=null;
+        internal var printing: Printing ?= null;
         lateinit var  btnPairUnpair :AppCompatButton
         lateinit var  btnPrint:AppCompatButton
         lateinit var  btnPrintImage :AppCompatButton
 
     private val REQUEST_BLUETOOTH_PERMISSION = 1
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,16 +49,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     }
     private fun initView() {
 
-        // Request Bluetooth permission if not granted
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.BLUETOOTH), REQUEST_BLUETOOTH_PERMISSION)
-        } else {
-            initPrinting()
-        }
-        // ...
-
-        if (printing!= null)
+           if (printing!= null)
             printing!!.printingCallback = this
 
         btnPairUnpair.setOnClickListener {
@@ -108,7 +97,6 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     }
 
     private fun printText() {
-
         val supplierName = findViewById<EditText>(R.id.suppliersName)
         val identityNumber = findViewById<EditText>(R.id.IdNumber)
         val route = findViewById<EditText>(R.id.route)
@@ -124,7 +112,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         val clerkName = clerk.text
         val weight = weightLitres.text
 
-        //        get cuurent time
+        //        get current time
         val currentdateTimeTv = findViewById<TextView>(R.id.date)
         val currentDateTime = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date())
         currentdateTimeTv.text = currentDateTime
@@ -132,12 +120,17 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
 
 //        Add text
         printables.add(TextPrintable.Builder().setText("Date: $currentDateTime \n" +
-                "Litres in weight: $weight \n" +
+//                "Litres in weight: $weight \n" +
                 "Supplier: $supplier \n" +
                 "ID number: $identity \n" +
                 "Route: $routeName \n" +
-                "Clerk Name: $clerkName\n")
-            .setCharacterCode(DefaultPrinter.CHARCODE_PC1252).setNewLinesAfter(1).build())
+                "Clerk Name: $clerkName \n")
+            .setLineSpacing(DefaultPrinter.LINE_SPACING_60)
+            .setAlignment(DefaultPrinter.ALIGNMENT_CENTER)
+            .setEmphasizedMode(DefaultPrinter.EMPHASIZED_MODE_BOLD)
+            .setUnderlined(DefaultPrinter.UNDERLINED_MODE_ON)
+            .setNewLinesAfter(1)
+            .setCharacterCode(DefaultPrinter.CHARCODE_PC1252).build())
 
 //        custom text
         printables.add(TextPrintable.Builder().setText("")
@@ -182,10 +175,10 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ScanningActivity.SCANNING_FOR_PRINTER &&
-            resultCode == Activity.RESULT_OK)
-            initPrinting();
+                resultCode == Activity.RESULT_OK && data != null)
+            initPrinting()
             changePairAndUnpair()
-     }
+    }
 
     private fun initPrinting() {
         if (Printooth.hasPairedPrinter())
