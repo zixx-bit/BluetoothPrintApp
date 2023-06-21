@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
         lateinit var  btnPrint:AppCompatButton
         lateinit var  btnPrintImage :AppCompatButton
 
-    private val REQUEST_BLUETOOTH_PERMISSION = 1
+         private val REQUEST_BLUETOOTH_PERMISSION = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
