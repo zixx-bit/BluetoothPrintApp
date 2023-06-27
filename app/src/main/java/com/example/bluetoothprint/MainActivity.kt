@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), PrintingCallback {
            if (printing!= null)
             printing!!.printingCallback = this
 
-        btnPairUnpair.setOnClickListener {
+            btnPairUnpair.setOnClickListener {
                     if (Printooth.hasPairedPrinter())
                         Printooth.removeCurrentPrinter()
                      else{
